@@ -1,0 +1,4 @@
+* Fix the issue of the 500ms time window or presentation of the target where responses are NOT recorded.
+
+* Maybe get the order of trials from the eprime script of Fan et al. (or implement the constraints on successive trials types that they describe in their methods)
+
