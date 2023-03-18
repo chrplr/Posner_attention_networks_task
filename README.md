@@ -11,6 +11,11 @@ To run the experiment, simply execute the following command in a terminal ("Anan
 	
 The results are saved in the subfolder `data`, in files "ant-r_XX_aaaammddhhmm.xpd" where XX is the participant's number. 
 	
+License
+--------
+
+Attribution-NonCommercial-ShareAlike: CC BY-NC-SA
+
 
 Methods (from Fan et al., 2009)
 ------------------------------------
