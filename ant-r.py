@@ -12,7 +12,7 @@ import numpy as np
 from expyriment import design, control, stimuli
 
 MAX_RESPONSE_DURATION = 2000
-GREY = (64, 64, 64)
+GREY = (80, 80, 80)
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
@@ -126,7 +126,7 @@ for trial in trials.itertuples(index=False):
     cross.present(clear=True, update=False)
     box_left.present(clear=False, update=False)
     box_right.present(clear=False, update=True)
-    exp.clock.wait(1000 + random.uniform(0, 1000))
+    exp.clock.wait(2000 + random.uniform(0, 2000))
 
     print(trial)
     if trial.alerting == "dbl_cue":
@@ -143,12 +143,12 @@ for trial in trials.itertuples(index=False):
             box_left.present(clear=False, update=False)
             cue_right.present(clear=False, update=True)
 
-    exp.clock.wait(500)
+    exp.clock.wait(100)
 
     cross.present(clear=True, update=False)
     box_left.present(clear=False, update=False)
     box_right.present(clear=False, update=True)
-    exp.clock.wait(500)
+    exp.clock.wait(400)  # 0, 400 or 800 in the original paper
 
     # present the target
     if trial.target_position == 'left':
@@ -173,8 +173,15 @@ for trial in trials.itertuples(index=False):
     box_right.present(clear=False, update=False)
     target.present(clear=False, update=True)
 
+    exp.clock.wait(500)  # FIXME: this is the time the target should stay on screen
+    # but we should also be able to record response during this intervall 
+
     key, rt = exp.keyboard.wait(duration=MAX_RESPONSE_DURATION)
     exp.data.add([key, rt])
+
+    cross.present(clear=True, update=False)
+    box_left.present(clear=False, update=False)
+    box_right.present(clear=False, update=False)
 
     # feedback
 
