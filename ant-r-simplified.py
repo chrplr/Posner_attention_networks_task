@@ -58,10 +58,10 @@ fontfile = "freesans"
 # → → → → →
 # ← ← → ← ←
 
-arrows_cong_left = stimuli.TextLine("← ← ← ← ←", text_font=fontfile, text_size=50)
-arrows_cong_right = stimuli.TextLine("→ → → → →", text_font=fontfile, text_size=50)
-arrows_incong_left = stimuli.TextLine("→ → ← → →", text_font=fontfile, text_size=50)
-arrows_incong_right = stimuli.TextLine("← ← → ← ←", text_font=fontfile, text_size=50)
+arrows_cong_left = stimuli.TextLine("← ← ←", text_font=fontfile, text_size=50)
+arrows_cong_right = stimuli.TextLine("→ → →", text_font=fontfile, text_size=50)
+arrows_incong_left = stimuli.TextLine("→ ← →", text_font=fontfile, text_size=50)
+arrows_incong_right = stimuli.TextLine("← → ←", text_font=fontfile, text_size=50)
 
 arrows_cong_left.preload()
 arrows_cong_right.preload()
@@ -71,7 +71,7 @@ arrows_incong_right.preload()
 w, h = arrows_incong_right.surface_size
 w, h = w + 20, h + 20  # add margins
 
-shift = w * 0.6
+shift = w * 0.7
 
 box_left = stimuli.Rectangle((w, h), colour=BLACK, line_width=3, position=( - shift, 0))
 box_left.preload()
@@ -89,12 +89,12 @@ exp.add_data_variable_names(['congruency', 'side', 'respkey', 'RT'])
 control.start(skip_ready_screen = True)
 
 stimuli.TextScreen("Instructions",
-    """Vous allez voir des suites de 5 flèches comme les suivantes:
+    """Vous allez voir des triplets de flèches comme les suivants:
 
-              ← ← ← ← ←
-              → → ← → →
-              → → → → →
-              ← ← → ← ←
+               ← ← ← 
+               → ← → 
+               → → → 
+               ← → ← 
 
     Votre tâche sera de déterminer, le plus rapidement possible, la direction vers la quelle point la flèche centrale
     ("gauche"  sur les deux premières lignes ci-dessus, "droite" pour les deux dernières).
@@ -126,7 +126,7 @@ for trial in trials.itertuples(index=False):
     cross.present(clear=True, update=False)
     box_left.present(clear=False, update=False)
     box_right.present(clear=False, update=True)
-    exp.clock.wait(2000 + random.uniform(0, 2000))
+    exp.clock.wait(3000 + random.uniform(0, 2000))
 
     print(trial)
     if trial.alerting == "dbl_cue":
