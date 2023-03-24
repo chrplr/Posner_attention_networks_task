@@ -1,0 +1,14 @@
+[Desktop Entry]
+Name=ANT
+GenericName=Posner ANT Task
+Comment=Script to  run ANT task# The translations should come from the po file. Leave them here for now, they will
+TryExec=  /home/neurostim/Posner_attention_networks_task/ant-r.py
+Exec=gnome-terminal --profile='default' --command 'bash -c "cd /home/neurostim/Posner_attention_networks_task/ && /home/neurostim/.pyenv/versions/3.7.6/envs/expyriment/bin/python /home/neurostim/Posner_attention_networks_task/ant-r.py"'
+Terminal=false
+Type=Application
+Keywords=expyriment;experiment;
+# Translators: This is the Icon file name. Do NOT translate
+Icon=Python
+Categories=Application;
+StartupNotify=false
+
