@@ -3,6 +3,7 @@ ANT-R task
 
 christophe@pallier.org
 
+The repository <https://github.com/chrplr/Posner_attention_networks_taks> contains several Python scripts implementing variants of the ANT task.
 
 `ant-r-classic.py` is a script implementing the ANT-R task described in Fan, J. et al (2009). 
 
