@@ -1,22 +1,43 @@
 ANT-R task
 =============
 
-`ant-r.py` is a script implementing the ANT-R task described in Fan, J., Gu, X., Guise, K.G., Liu, X., Fossella, J., Wang, H., and Posner, M.I. (2009). Testing the behavioral interaction and integration of attentional networks. *Brain and Cognition* 70, 209–220. 10.1016/j.bandc.2009.02.002.
+christophe@pallier.org
+
+
+`ant-r-classic.py` is a script implementing the ANT-R task described in Fan, J. et al (2009). 
 
 ![](ANT-R-task-Fan_et_al_2009.png)
 
-Usage
-------
 
-The script needs the following to be installed on your computer:
+The other scripts (`ant-v.py`, `posner-task-simplified.py`, ...) are simplified versions.
+
+### Reference
+
+Fan, J., Gu, X., Guise, K.G., Liu, X., Fossella, J., Wang, H., and Posner, M.I. (2009). Testing the behavioral interaction and integration of attentional networks. *Brain and Cognition* 70, 209–220. 10.1016/j.bandc.2009.02.002.
+
+
+
+Installation
+--------------
+
+First, you need to install:
+
 * Python3 (e.g. [miniconda](https://docs.conda.io/en/latest/miniconda.html)).
 * the [expyriment.org](expyriment.org) module (see <https://docs.expyriment.org/Installation.html>). 
+* [git](https://git-scm.com/download/)
+
+
+Then, to install the ANT scripts on your computer, in a Terminal (e.g. Git Bash for Windows), type the follwing command line:
+
+    git clone https://github.com/chrplr/Posner_attention_networks_task.git
+	cd Posner_attention_networks_task
+
 
 To run the experiment (one block of 72 trials), simply execute the following command in a terminal ("Anancoda Prompt" if running under Windows with Anaconda Python installed): 
 
-    python ant-r.py
+    python ant-v.py
 	
-Results are saved in the subfolder `data`, in files named `ant-r_XX_aaaammddhhmm.xpd` where XX is the participant's number. 
+Results are saved in the subfolder `data`, in files named `ant-v_XX_aaaammddhhmm.xpd` where XX is the participant's number. 
 	
 License
 --------

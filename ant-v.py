@@ -2,21 +2,25 @@
 # Time-stamp: <2021-03-23 22:02:10 christophe@pallier.org>
 # License: Creative Commons BY-SA-NC
 
-""" Implementation of Posner's endogeneous attention cueing task (see https://en.wikipedia.org/wiki/Posner_cueing_task)
+"""Implementation of Posner's endogeneous attention cueing task (see https://en.wikipedia.org/wiki/Posner_cueing_task). One difference with the ANT-R task (Fan et a. 2009) is that the boxe appear above or below the fixation cross, rahter than ion hte left and right. This eliminates the Simon reponse compatibility component, but make the task easier on participants.
 
-Note: This experiment is meant to be run on FullHD (1920x1080) resolution"""
+Note: This experiment is meant to be run on FullHD (1920x1080) resolution.
+"""
 
 import random
 import pandas as pd
-import pygame
 from expyriment import design, control, stimuli, misc
 
-MAX_RESPONSE_DURATION = 1700
 GREY = (80, 80, 80)
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
+
+CUE_DISPLAY_DURATION = 100  # 100 in hte original paper
+CUE_TARGET_INTERVAL = 400  # 0, 400 or 800 in the original paper
+TARGET_DISPLAY_DURATION = 200  # 500 in the original paper
+MAX_RESPONSE_DURATION = 1700
 
 LEFT_RESPONSE_KEY = misc.constants.K_f
 LEFT_RESPONSE_KEY_CHAR = 'F'
@@ -65,42 +69,22 @@ control.initialize(exp)
 ##################################################################
 blankscreen = stimuli.BlankScreen(colour=GREY)
 
-cross_black = stimuli.FixCross(size=(30, 30),
-                               colour=BLACK,
-                               line_width=4)
+cross_black = stimuli.FixCross(size=(30, 30), colour=BLACK, line_width=4)
+cross_green = stimuli.FixCross(size=(30, 30), colour=GREEN, line_width=4)
+cross_red = stimuli.FixCross(size=(30, 30), colour=RED, line_width=4)
+
 cross_black.preload()
-
-cross_green = stimuli.FixCross(size=(30, 30),
-                               colour=GREEN,
-                               line_width=4)
 cross_green.preload()
-
-cross_red = stimuli.FixCross(size=(30, 30),
-                             colour=RED,
-                             line_width=4)
 cross_red.preload()
 
-fixation_crosses = dict(neutral=cross_black,
-                        positive=cross_green,
+fixation_crosses = dict(neutral=cross_black, 
+                        positive=cross_green, 
                         negative=cross_red)
 
-# arrows_cong_left = stimuli.Picture("arrows-cong-left.png", position=(+200, 0))
-# arrows_cong_left.preload()
-
-# arrows_cong_right = stimuli.Picture("arrows-cong-right.png", position=(+200, 0))
-# arrows_cong_right.preload()
-
-# arrows_incong_left = stimuli.Picture("arrows-incong-left.png", position=(+200, 0))
-# arrows_incong_left.preload()
-
-# arrows_incong_right = stimuli.Picture("arrows-incong-right.png", position=(+200, 0))
-# arrows_incong_right.preload()
-
 ### target stimuli
-# fontfile = "freemono"
+
 fontfile = "freesans"
-# →
-# ←
+
 # arrows_cong_left = stimuli.TextLine("← ← ← ← ←", text_font=fontfile, text_size=50)
 # arrows_cong_right = stimuli.TextLine("→ → → → →", text_font=fontfile, text_size=50)
 # arrows_incong_left = stimuli.TextLine("→ → ← → →", text_font=fontfile, text_size=50)
@@ -120,7 +104,7 @@ arrows_incong_right.preload()
 w, h = arrows_incong_right.surface_size
 w, h = w + 20, h + 20  # add margins
 
-shift = h * 1
+shift = h 
 
 box_bottom = stimuli.Rectangle((w, h), colour=BLACK, line_width=3, position=(0, -shift))
 box_top = stimuli.Rectangle((w, h), colour=BLACK, line_width=3, position=(0, shift))
@@ -134,9 +118,13 @@ cue_top.preload()
 
 
 def display(cross_type, top_cued, bottom_cued):
-    """ cross_type: 'neutral', 'positive' or 'negative'
-        top_cued: boolean  (top frame color: False=black, True=white)
-        bottom_cued: boolean
+
+    """Displays a central cross and two frames, above and below it.
+
+       Args:
+           cross_type: 'neutral', 'positive' or 'negative'
+           top_cued: boolean  (top frame color: False=black, True=white)
+           bottom_cued: boolean (bottom frame color)
     """
     cross = fixation_crosses[cross_type]
     cross.present(clear=True, update=False)
@@ -150,10 +138,8 @@ def display(cross_type, top_cued, bottom_cued):
     else:
         box_bottom.present(clear=False, update=True)
 
-
-exp.add_data_variable_names(['Arrow_direction', 'Flanker_congruency', 'Alterting',
-                             'Cue_validity', 'Cue_up', 'Cue_down', 'Target_position',
-                             'Response_key', 'Reaction_Time'])
+exp.add_data_variable_names(list(trials.columns) +
+                            ['response_key', 'reaction_time'])
 
 #####################################################################
 control.start(skip_ready_screen=True)
@@ -169,9 +155,9 @@ for trial in trials.itertuples(index=False):
     exp.clock.wait(1500 + random.uniform(0, 2000))
 
     display("neutral", trial.cue_up, trial.cue_down)
-    exp.clock.wait(100)
+    exp.clock.wait(CUE_DISPLAY_DURATION)
     display('neutral', False, False)
-    exp.clock.wait(400)  # 0, 400 or 800 in the original paper
+    exp.clock.wait(CUE_TARGET_INTERVAL)
 
     # select target
     if trial.arrow_direction == 'left':
@@ -187,18 +173,20 @@ for trial in trials.itertuples(index=False):
 
     # display target
     if trial.target_position == 'down':
-        target_pos = (0, - shift)
+        target_pos = (0, -shift)
     if trial.target_position == 'up':
         target_pos = (0, shift)
 
     target.reposition(target_pos)
     display('neutral', False, False)
     target.present(clear=False, update=True)
-    exp.clock.wait(200)
+    exp.clock.wait(TARGET_DISPLAY_DURATION)
     display('neutral', False, False)
 
     key, rt = exp.keyboard.wait(duration=MAX_RESPONSE_DURATION)
-    exp.data.add([key, rt])
+    if rt is not None:
+        rt = rt + TARGET_DISPLAY_DURATION
+    exp.data.add(list(trial) + [key, rt])
 
     # feedback
     if (key == LEFT_RESPONSE_KEY and trial.arrow_direction == 'left') or \
@@ -207,6 +195,6 @@ for trial in trials.itertuples(index=False):
     else:
         display("negative", False, False)
 
-    exp.clock.wait(500)
+    exp.clock.wait(400)
 
 control.end()
