@@ -9,6 +9,7 @@ Note: This experiment is meant to be run on FullHD (1920x1080) resolution.
 
 import random
 import pandas as pd
+import argparse
 from expyriment import design, control, stimuli, misc
 
 GREY = (80, 80, 80)
@@ -54,9 +55,22 @@ Placez vos index sur les touches '{LEFT_RESPONSE_KEY_CHAR}' (gauche) et '{RIGHT_
 Bonne expérience !
 """
 
+
 ##################################################################
-trials = pd.read_csv('trials-vertical.csv')
-trials = trials.sample(frac=1)
+# Read the trials list
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--training", action="store_true")
+parser.add_argument("--mri", action="store_true")
+args = parser.parse_args()
+
+if args.training is not None:
+    print("TRAINING mode!")
+    trials = pd.read_csv('trials-vertical-training.csv')
+    trials = trials.sample(frac=1)
+else:    
+    trials = pd.read_csv('trials-vertical.csv')
+    trials = trials.sample(frac=1)
 
 ##################################################################
 exp = design.Experiment(name="ANT-R-task",
@@ -146,7 +160,7 @@ control.start(skip_ready_screen=True)
 
 stimuli.TextScreen("Instructions", INSTRUCTIONS_FRENCH,
                    size=(1820, 1080), text_justification=0).present()
-exp.keyboard.wait()
+exp.keyboard.wait(keys=[misc.constants.K_t, misc.constants.K_SPACE])
 blankscreen.present()
 exp.clock.wait(1000)
     
