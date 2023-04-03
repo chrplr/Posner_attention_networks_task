@@ -64,11 +64,12 @@ parser.add_argument("--training", action="store_true")
 parser.add_argument("--mri", action="store_true")
 args = parser.parse_args()
 
-if args.training is not None:
+
+if args.training:
     print("TRAINING mode!")
     trials = pd.read_csv('trials-vertical-training.csv')
     trials = trials.sample(frac=1)
-else:    
+else:
     trials = pd.read_csv('trials-vertical.csv')
     trials = trials.sample(frac=1)
 
