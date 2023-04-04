@@ -1,0 +1,7 @@
+#! /usr/bin/env bash
+
+TARGET=data-$( hostname )-$( date -Iminutes ).zip
+
+zip -rpq "${TARGET}" data/ant-v*.xpd
+echo @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+echo @ data saved in "${TARGET}" 
