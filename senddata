@@ -1,7 +1,5 @@
 #! /usr/bin/env bash
 
-TARGET=data-$( hostname )-$( date -Iminutes ).zip
-
+TARGET=ant-v-data.zip
 zip -rpq "${TARGET}" data/ant-v*.xpd
-echo @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-echo @ data saved in "${TARGET}" 
+./send-data-to-unicog "${TARGET}"
