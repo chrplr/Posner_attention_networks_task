@@ -43,8 +43,9 @@ Results are saved in the subfolder `data`, in files named `ant-v_XX_aaaammddhhmm
 License
 --------
 
-Attribution-NonCommercial-ShareAlike: CC BY-NC-SA 4.0
+Attribution-ShareAlike: CC BY-SA 4.0
 
+<https://creativecommons.org/licenses/by-sa/4.0/legalcode.txt>
 
 
 Methods (from Fan et al., 2009)
